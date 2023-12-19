@@ -7,6 +7,9 @@ class CommandLineInterface:
     def run(self):
         while True:
             command = input(f"{self.file_system.current_path}> ").strip().split(" ", 1)
+            if not command:
+                continue  # Skip empty commands
+
             if command[0] == 'exit':
                 self.file_system.exit()
             elif command[0] == 'save_state':
@@ -22,9 +25,9 @@ class CommandLineInterface:
             else:
                 operation = getattr(self.file_system, command[0], None)
                 if operation is not None and callable(operation):
-                    try:
-                        operation(*command[1].split())
-                    except TypeError:
-                        print("Invalid arguments for the operation.")
+                    args = command[1].split() if len(command) > 1 else []  # Check if there are arguments
+                    if command[0] == 'cd':
+                        args = [command[1]]  # Ensure 'cd' has one argument (the path)
+                    operation(*args)
                 else:
                     print("Invalid command.")

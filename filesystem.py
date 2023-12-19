@@ -4,13 +4,13 @@ import os
 import json
 
 class InMemoryFileSystem:
-
     def __init__(self):
         """
         Initialize an in-memory file system.
         """
         self.current_path = '/'
         self.file_system = {}
+
     def mkdir(self, directory_name):
         path = os.path.join(self.current_path, directory_name)
         if path not in self.file_system:
@@ -41,8 +41,7 @@ class InMemoryFileSystem:
         if file_path not in self.file_system:
             self.file_system[file_path] = ""
         else:
-            print(f"File '{file_name}' already exists.")    
-
+            print(f"File '{file_name}' already exists.")
 
     def echo(self, text, file_name):
         file_path = os.path.join(self.current_path, file_name)
